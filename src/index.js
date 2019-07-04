@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { setGlobal, addCallback } from 'reactn';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+const deserializeCart = () => (
+  JSON.parse(localStorage.getItem('cart') || [])
+)
+
+setGlobal({
+  cart: deserializeCart(),
+});
+
+addCallback((global) => {
+  const serializedCart = JSON.stringify(global.cart)
+  localStorage.setItem('cart', serializedCart)
+
+  return null;
+})
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
